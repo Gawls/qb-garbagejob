@@ -1,5 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Routes = {}
+local TotalNumberOfStops = 0
 
 local function CanPay(Player)
     return Player.PlayerData.money['bank'] >= Config.TruckPrice
@@ -10,7 +11,6 @@ QBCore.Functions.CreateCallback("garbagejob:server:NewShift", function(source, c
     local CitizenId = Player.PlayerData.citizenid
     local shouldContinue = false
     local nextStop = 0
-    local totalNumberOfStops = 0
     local bagNum = 0
 
     if CanPay(Player) or continue then
@@ -32,17 +32,22 @@ QBCore.Functions.CreateCallback("garbagejob:server:NewShift", function(source, c
             depositPay = Config.TruckPrice,
             actualPay = 0,
             stopsCompleted = 0,
-            totalNumberOfStops = #allStops
+            TotalNumberOfStops = #allStops
         }
 
         nextStop = allStops[1].stop
         shouldContinue = true
-        totalNumberOfStops = #allStops
+        TotalNumberOfStops = #allStops
         bagNum = allStops[1].bags
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t("error.not_enough", {value = Config.TruckPrice}), "error")
     end
-    cb(shouldContinue, nextStop, bagNum, totalNumberOfStops)
+    cb(shouldContinue, nextStop, bagNum, TotalNumberOfStops)
+end)
+
+-- this event tells the client how many stops are on the route
+RegisterNetEvent("qb-garbagejob:server:getNumOfStops", function(source)
+    TriggerClientEvent('QBCore:Notify', source, Lang:t("info.total_stops", {value = TotalNumberOfStops}))
 end)
 
 RegisterNetEvent("qb-garbagejob:server:payDeposit", function()
@@ -88,6 +93,10 @@ QBCore.Functions.CreateCallback("garbagejob:server:NextStop", function(source, c
 
             Routes[CitizenId].actualPay = math.ceil(Routes[CitizenId].actualPay + totalNewPay)
             Routes[CitizenId].stopsCompleted = tonumber(Routes[CitizenId].stopsCompleted) + 1
+
+            --added the following three lines to notify client how many stops are left on route 
+            local stopsLeft = TotalNumberOfStops - Routes[CitizenId].stopsCompleted
+            TriggerClientEvent('QBCore:Notify', source, Lang:t("info.stops_left", {value = stopsLeft}))
         end
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t("error.too_far"), "error")
