@@ -41,6 +41,12 @@ end
 
 -- Functions
 
+-- this function tells the server to tell how many stops we have. The function is called on line 476
+local function getNumberOfStops()
+    TriggerServerEvent("qb-garbagejob:server:getNumOfStops", GetPlayerServerId(PlayerId()))
+end
+
+
 local function LoadAnimation(dict)
     RequestAnimDict(dict)
     while not HasAnimDictLoaded(dict) do Wait(10) end
@@ -174,7 +180,7 @@ function TakeAnim()
     }, {}, {}, function()
         LoadAnimation('missfbi4prepp1')
         TaskPlayAnim(ped, 'missfbi4prepp1', '_bag_walk_garbage_man', 6.0, -6.0, -1, 49, 0, 0, 0, 0)
-        garbageObject = CreateObject(`prop_cs_rub_binbag_01`, 0, 0, 0, true, true, true)
+        garbageObject = CreateObject("prop_cs_rub_binbag_01", 0, 0, 0, true, true, true)
         AttachEntityToEntity(garbageObject, ped, GetPedBoneIndex(ped, 57005), 0.12, 0.0, -0.05, 220.0, 120.0, 0.0, true, true, false, true, 1, true)
         StopAnimTask(PlayerPedId(), "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 1.0)
         AnimCheck()
@@ -467,6 +473,7 @@ RegisterNetEvent('qb-garbagejob:client:RequestRoute', function()
                             QBCore.Functions.Notify(Lang:t("info.deposit_paid", { value = Config.TruckPrice }))
                             QBCore.Functions.Notify(Lang:t("info.started"))
                             TriggerServerEvent("qb-garbagejob:server:payDeposit")
+                            getNumberOfStops() -- call this function to get number of stops
                         end, Config.Vehicle, v, false)
                         return
                     else
