@@ -1,5 +1,7 @@
 # Garbage Job V2 For QB-Core
 
+- Adapted for different fuel systems. Set your fuel system in config.lua
+
 # Rework Update
 - Job now pays per bag delivered on a configured scale.
 - Job Randomises the amount of stops and what stops the user goes to
