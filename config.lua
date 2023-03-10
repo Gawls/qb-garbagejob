@@ -26,6 +26,9 @@ Config.MinBagsPerStop = 2
 -- Maximum bags per stop
 Config.MaxBagsPerStop = 5
 
+-- Change to your approriate fuel system
+Config.FuelSystem = 'cdn-fuel'
+
 -- WIP: Do not use
 -- If you want to use custom routes instead of random amount of stops stops set to true
 Config.UsePreconfiguredRoutes = false
