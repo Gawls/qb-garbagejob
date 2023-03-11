@@ -118,9 +118,9 @@ RegisterNetEvent('garbagejob:server:PayShift', function(continue)
     local CitizenId = Player.PlayerData.citizenid
     if Routes[CitizenId] ~= nil then
         local depositPay = Routes[CitizenId].depositPay
-        if tonumber(Routes[CitizenId].stopsCompleted) < tonumber(Routes[CitizenId].totalNumberOfStops) then
+        if tonumber(Routes[CitizenId].stopsCompleted) < tonumber(Routes[CitizenId].TotalNumberOfStops) then
             depositPay = 0
-            TriggerClientEvent('QBCore:Notify', src, Lang:t("error.early_finish", {completed = Routes[CitizenId].stopsCompleted, total = Routes[CitizenId].totalNumberOfStops}), "error")
+            TriggerClientEvent('QBCore:Notify', src, Lang:t("error.early_finish", {completed = Routes[CitizenId].stopsCompleted, total = Routes[CitizenId].TotalNumberOfStops}), "error")
         end
         if continue then
             depositPay = 0
