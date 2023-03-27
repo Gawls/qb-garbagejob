@@ -15,10 +15,10 @@ Config.CryptoStickChance = 75
 Config.MinStops = 5
 
 -- Upper worth per bag
-Config.BagUpperWorth = 100
+Config.BagUpperWorth = 250
 
 -- Lower worth per bag
-Config.BagLowerWorth = 50
+Config.BagLowerWorth = 150
 
 -- Minimum bags per stop
 Config.MinBagsPerStop = 2
@@ -27,7 +27,7 @@ Config.MinBagsPerStop = 2
 Config.MaxBagsPerStop = 5
 
 -- Change to your approriate fuel system
-Config.FuelSystem = 'cdn-fuel'
+Config.FuelSystem = 'LegacyFuel'
 
 -- WIP: Do not use
 -- If you want to use custom routes instead of random amount of stops stops set to true
